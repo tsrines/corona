@@ -4,6 +4,10 @@ Rails.application.routes.draw do
       resources :states
       resources :countries
       resources :johnshopkins
+      post "/signup", to: "users#create"
+      post "/login", to: "auth#login"
+
+      get "/auto_login", to: "auth#auto_login"
       # get 'countydata', :to => 'states#county_data'
       # get 'historical', :to => 'states#historical'
     end
