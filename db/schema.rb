@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_061922) do
+ActiveRecord::Schema.define(version: 2020_06_08_024547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,24 @@ ActiveRecord::Schema.define(version: 2020_06_07_061922) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "location_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_favorites_on_location_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
   create_table "johnshopkins", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "slug"
+    t.float "long"
+    t.float "lat"
   end
 
   create_table "states", force: :cascade do |t|
@@ -32,10 +47,13 @@ ActiveRecord::Schema.define(version: 2020_06_07_061922) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "username"
     t.string "email"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "favorites", "locations"
+  add_foreign_key "favorites", "users"
 end
